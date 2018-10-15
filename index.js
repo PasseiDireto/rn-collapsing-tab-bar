@@ -1,7 +1,5 @@
 const React = require("react");
 const createReactClass = require("create-react-class");
-const { Component } = React;
-//const { ViewPropTypes } = ReactNative = require('react-native');
 
 import {
   Dimensions,
@@ -363,14 +361,19 @@ const ScrollableTabView = createReactClass({
         onMomentumScrollEnd={event => {
           this.contentScrollDistance = event.nativeEvent.contentOffset.y;
         }}
-        onScroll={({ nativeEvent }) => {
-          this.props.onContainerScroll(nativeEvent);
-          if (isCloseToBottom(nativeEvent)) {
-            if (this.props.loadMore) {
-              this.props.loadMore();
+        onScroll={Animated.event(
+          [{ nativeEvent: { contentOffset: { y: this.props.scrollValue } } }],
+          {
+            listener: ({ nativeEvent }) => {
+              this.props.onContainerScroll(nativeEvent);
+              if (isCloseToBottom(nativeEvent)) {
+                if (this.props.loadMore) {
+                  this.props.loadMore();
+                }
+              }
             }
           }
-        }}
+        )}
         refreshControl={
           this.props.refreshControl ? this.props.refreshControl : null
         }
