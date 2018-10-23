@@ -50,7 +50,8 @@ const ScrollableTabView = createReactClass({
       contentProps: {},
       scrollWithoutAnimation: false,
       locked: false,
-      prerenderingSiblingsNumber: 0
+      prerenderingSiblingsNumber: 0,
+      bounces: true
     };
   },
 
@@ -379,6 +380,7 @@ const ScrollableTabView = createReactClass({
         }
         scrollEventThrottle={16}
         stickyHeaderIndices={this.props.collapsableBar ? [1] : []}
+        bounces={this.props.bounces}
       >
         {this.renderCollapsableBar()}
         {this.props.tabBarPosition === "top" && this.renderTabBar(tabBarProps)}
